@@ -7,7 +7,25 @@ int extraMemoryAllocated;
 // implements heap sort
 // extraMemoryAllocated counts bytes of memory allocated
 void heapSort(int arr[], int n)
-{
+{	int i = sizeof(arr);
+	int largest;
+	int left = 2*n;
+	int right = 2*n+1;
+
+	if ( left <= i && arr[left] > arr[n])
+		largest = left;
+	else largest = i;
+
+	if ( right <= i && arr[right] > arr[n])
+		largest = right;
+
+	if (largest != n) {
+		int temp;
+		temp = arr[n];
+		arr[n] = arr[largest];
+		arr[largest] = temp;
+	}
+	heapSort(arr, largest);
 }
 
 
@@ -15,6 +33,44 @@ void heapSort(int arr[], int n)
 // extraMemoryAllocated counts bytes of extra memory allocated
 void mergeSort(int pData[], int l, int r)
 {
+	int max = sizeof(pData);
+	int middle = max/2;
+	int A = middle - l + 1;
+	int B = r - middle;
+
+	int Left[A], Right[B];
+
+	for (int i = 0; i < A; i++){
+		Left[i] = pData[l+1];
+	}
+	for (int j = 0; j < B; j++){
+		Right[j] = pData[middle + l + j];
+	}
+	int o = 0;
+	int p = 0;
+	int q = 1;
+
+	while ( o < A && p < B){
+		if (Left[o] <= Right[p]){
+			pData[q] = Left[o];
+			o++;
+		}
+		else {
+			pData[q] = Right[p];
+			p++;
+		}
+		q++;
+	}
+	while (o < A){
+		pData[q] = Left[o];
+		o++;
+		q++;
+	}
+	while (p < B) {
+		pData[q] = Right[p];
+		p++;
+		q++;
+	}	
 }
 
 // parses input file to an integer array
